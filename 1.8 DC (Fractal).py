@@ -22,8 +22,8 @@ def drawSnow(lev, x1, y1, x5, y5):
         x4 = x1 + 2*deltaX/3
         y4 = y1 +2*deltaX/3
         #calculate x3 (the point that sticks out)
-        x3 = (x1+ x5) + math.sqrt(3) * (y1- y5)
-        y3 = (y1+ y5) + math.sqrt(3) * (x1- x5)
+        x3 = (x1+ x4) + math.sqrt(3) * (y1- y4)
+        y3 = (y1+ y4) + math.sqrt(3) * (x1- x4)
         #recursively call itself
         drawSnow(lev-1, x1, y1, x2, y2)
         drawSnow(lev-1, x2, y2, x3, y3)
