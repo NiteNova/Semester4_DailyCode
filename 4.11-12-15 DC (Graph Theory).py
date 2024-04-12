@@ -98,9 +98,9 @@ def main():
         # Color Coding to weight
         red = scaled_length
         blue = 255 - scaled_length
-        green = 125
+        green = int(scaled_length / 199)
         #Text of the edge weight
-        text = font.render(str(g[1]), True, (red, green, blue))
+        text = font.render(str(int(line_length)), True, (red, green, blue))
         midpoint = (start + end)/2
 
         #drawing the text & edges to screen
