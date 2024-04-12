@@ -12,6 +12,8 @@ pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE)
 pygame.display.set_caption("")
 
+font = pygame.font.SysFont(pygame.font.get_default_font(), 32)
+
 
 # definitions:
 def add_vertex(v: int):
@@ -60,6 +62,8 @@ add_edge(4, 1, 5)
 
 print(graph)
 
+
+
 def main():
   # game setup:
   #clock = pygame.time.Clock()
@@ -67,7 +71,6 @@ def main():
   positions: list[Vector2] = []
   for i in graph:
     positions.append(Vector2(random.randrange(1200), random.randrange(800)))
-
   # main loop:
   running = True
   while running:
@@ -80,13 +83,29 @@ def main():
 
     # draw:
     screen.fill("#000000")
-    for i in range(len(graph)):
-      pygame.draw.circle(screen, (255, 125, 0), positions[i], 10)
-
+    for i in graph:
+      pygame.draw.circle(screen, (255, 125, 0), positions[i - 1], 10)
+      vertex_text = font.render(str(i), True, (255, 125, 0))
+      screen.blit(vertex_text, positions[i - 1] + Vector2(5, 10))
 
     for t in graph:
       for g in graph[t]:
-        pygame.draw.line(screen, (255, 125, 0), positions[t-1], positions[g[0]-1])
+        # Calculating length of edges
+        start = positions[t-1]
+        end = positions[g[0]-1]
+        line_length = start.distance_to(end)
+        scaled_length = int(line_length / SCREEN_SIZE.length() * 255)
+        # Color Coding to weight
+        red = scaled_length
+        blue = 255 - scaled_length
+        green = 125
+        #Text of the edge weight
+        text = font.render(str(g[1]), True, (red, green, blue))
+        midpoint = (start + end)/2
+
+        #drawing the text & edges to screen
+        screen.blit(text, midpoint)
+        pygame.draw.line(screen, (red, green, blue), start, end)
     pygame.display.flip()
 
 if __name__ == "__main__":
